@@ -10,104 +10,81 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
   StatusBar,
+  View,
+  FlatList,
+  Text,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+import ViewPager from '@react-native-community/viewpager';
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+      <SafeAreaView style={styles.normalize}>
+        <ViewPager
+          style={styles.normalize}
+          initialPage={0}
+          orientation="vertical">
+          {[...Array(6).keys()].map(() => (
+            <View>
+              <Text style={styles.title}>
+                This flat list below contain a lot of item. But in android, the
+                flat list vertical scroll is not working.
               </Text>
+              <FlatList
+                style={styles.flatList}
+                data={[...Array(20).keys()]}
+                renderItem={({item}) => (
+                  <View style={styles.list}>
+                    <Text style={styles.numberList}>{item + 1}.</Text>
+                    <Text>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s
+                    </Text>
+                  </View>
+                )}
+              />
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
+          ))}
+        </ViewPager>
       </SafeAreaView>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
+  normalize: {flex: 1},
+  title: {
+    margin: 12,
+    marginBottom: 0,
+    color: '#c00',
+    fontSize: 20,
     fontWeight: '700',
   },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  flatList: {
+    flex: 1,
+    margin: 12,
+    borderWidth: 1,
+    borderColor: Colors.dark,
+    borderRadius: 3,
+    padding: 12,
+  },
+  list: {
+    margin: 4,
+    padding: 12,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: Colors.lighter,
+    backgroundColor: Colors.light,
+    flexDirection: 'row',
+  },
+  numberList: {
+    marginRight: 4,
   },
 });
 
